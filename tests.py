@@ -6,7 +6,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import pytest
 import json
-
+import time
 from api import app
 
 import random
@@ -70,7 +70,7 @@ def test_user_signup_duplicate(client):
        Tests '/users/register' API
     """
     DUMMY_USERNAME_RANDOM, DUMMY_EMAIL_RANDOM, DUMMY_PASS_RANDOM = generateDummyData()
-    print("generated: ",{
+    print("generated duplicate: ",{
                 "username": DUMMY_USERNAME_RANDOM,
                 "email": DUMMY_EMAIL_RANDOM,
                 "password": DUMMY_PASS_RANDOM
@@ -86,6 +86,7 @@ def test_user_signup_duplicate(client):
         ),
         content_type="application/json")
 
+    # time.sleep(10)
     responseDuplicate = client.post(
         "api/users/register",
         data=json.dumps(
@@ -98,7 +99,7 @@ def test_user_signup_duplicate(client):
         content_type="application/json")
 
     # print("The user was successfully registered")
-    data = json.loads(response.data.decode())
+    data = json.loads(responseDuplicate.data.decode())
     print("RESULT:", data)
     assert responseDuplicate.status_code == 400
     assert "Email already taken" in data["msg"]

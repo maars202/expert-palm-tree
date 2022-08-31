@@ -99,6 +99,7 @@ class Register(Resource):
         _password = req_data.get("password")
 
         user_exists = Users.get_by_email(_email)
+        print("duplicate!: ", user_exists)
         if user_exists:
             return {"success": False,
                     "msg": "Email already taken"}, 400
@@ -110,7 +111,8 @@ class Register(Resource):
 
         return {"success": True,
                 "userID": new_user.id,
-                "msg": "The user was successfully registered"}, 200
+                "msg": "The user was successfully registered",
+                "user_exists": user_exists}, 200
 
 
 @rest_api.route('/api/users/login')
