@@ -132,13 +132,29 @@ def test_user_login_correct(client):
     """
        Tests /users/signup API: Correct credentials
     """
+    DUMMY_USERNAME_RANDOM, DUMMY_EMAIL_RANDOM, DUMMY_PASS_RANDOM = generateDummyData()
+    # print("generated duplicate: ",{
+    #             "username": DUMMY_USERNAME_RANDOM,
+    #             "email": DUMMY_EMAIL_RANDOM,
+    #             "password": DUMMY_PASS_RANDOM
+    #         } )
+    response = client.post(
+        "api/users/register",
+        data=json.dumps(
+            {
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
+            }
+        ),
+        content_type="application/json")
     print("test_user_login_correct")
     response = client.post(
         "api/users/login",
         data=json.dumps(
             {
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             }
         ),
         content_type="application/json")
@@ -153,12 +169,31 @@ def test_user_login_error(client):
        Tests /users/signup API: Wrong credentials
     """
     print("test_user_login_error")
+
+    DUMMY_USERNAME_RANDOM, DUMMY_EMAIL_RANDOM, DUMMY_PASS_RANDOM = generateDummyData()
+    # print("generated duplicate: ",{
+    #             "username": DUMMY_USERNAME_RANDOM,
+    #             "email": DUMMY_EMAIL_RANDOM,
+    #             "password": DUMMY_PASS_RANDOM
+    #         } )
+    response = client.post(
+        "api/users/register",
+        data=json.dumps(
+            {
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
+            }
+        ),
+        content_type="application/json")
+
+
     response = client.post(
         "api/users/login",
         data=json.dumps(
             {
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_EMAIL
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_EMAIL_RANDOM
             }
         ),
         content_type="application/json")
