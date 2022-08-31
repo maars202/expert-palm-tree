@@ -23,10 +23,10 @@ DUMMY_EMAIL = "apple@apple.com"
 DUMMY_PASS = "newpassword"
 
 def generateDummyData():
-    DUMMY_USERNAME = ''.join(random.choices(string.ascii_lowercase, k=5))
-    DUMMY_EMAIL = DUMMY_USERNAME + "@apple.com"
-    DUMMY_PASS = ''.join(random.choices(string.ascii_lowercase, k=11))
-    return DUMMY_USERNAME, DUMMY_EMAIL, DUMMY_PASS
+    DUMMY_USERNAME_ = ''.join(random.choices(string.ascii_lowercase, k=5))
+    DUMMY_EMAIL_ = DUMMY_USERNAME_ + "@apple.com"
+    DUMMY_PASS_ = ''.join(random.choices(string.ascii_lowercase, k=11))
+    return DUMMY_USERNAME_, DUMMY_EMAIL_, DUMMY_PASS_
 
 
 
@@ -36,23 +36,25 @@ def client():
     with app.test_client() as client:
         yield client
 
+    print("setting random here!")
+
 def test_user_signup(client):
     """
        Tests /users/register API
     """
-    DUMMY_USERNAME, DUMMY_EMAIL, DUMMY_PASS = generateDummyData()
+    DUMMY_USERNAME_RANDOM, DUMMY_EMAIL_RANDOM, DUMMY_PASS_RANDOM = generateDummyData()
     print("generated: ",{
-                "username": DUMMY_USERNAME,
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             } )
     response = client.post(
         "api/users/register",
         data=json.dumps(
             {
-                "username": DUMMY_USERNAME,
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             }
         ),
         content_type="application/json")
@@ -65,21 +67,21 @@ def test_user_signup(client):
     
 def test_user_signup_duplicate(client):
     """
-       Tests /users/register API
+       Tests '/users/register' API
     """
-    DUMMY_USERNAME, DUMMY_EMAIL, DUMMY_PASS = generateDummyData()
+    DUMMY_USERNAME_RANDOM, DUMMY_EMAIL_RANDOM, DUMMY_PASS_RANDOM = generateDummyData()
     print("generated: ",{
-                "username": DUMMY_USERNAME,
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             } )
     response = client.post(
         "api/users/register",
         data=json.dumps(
             {
-                "username": DUMMY_USERNAME,
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             }
         ),
         content_type="application/json")
@@ -88,9 +90,9 @@ def test_user_signup_duplicate(client):
         "api/users/register",
         data=json.dumps(
             {
-                "username": DUMMY_USERNAME,
-                "email": DUMMY_EMAIL,
-                "password": DUMMY_PASS
+                "username": DUMMY_USERNAME_RANDOM,
+                "email": DUMMY_EMAIL_RANDOM,
+                "password": DUMMY_PASS_RANDOM
             }
         ),
         content_type="application/json")
@@ -99,7 +101,7 @@ def test_user_signup_duplicate(client):
     data = json.loads(response.data.decode())
     print("RESULT:", data)
     assert responseDuplicate.status_code == 400
-    assert "The user was successfully registered" in data["msg"]
+    assert "Email already taken" in data["msg"]
     
 
 
@@ -121,6 +123,7 @@ def test_user_signup_invalid_data(client):
 
     data = json.loads(response.data.decode())
     assert response.status_code == 400
+    # boundary testing and negative testing --- the toal length of email should be more than ....:
     assert "'' is too short" in data["msg"]
 
 
