@@ -38,7 +38,7 @@ def client():
 
     print("setting random here!")
 
-def test_user_signup(client):
+def test_user_signup1(client):
     """
        Tests /users/register API
     """
