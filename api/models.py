@@ -13,9 +13,22 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+# class Role(db.Model):
+#     id = db.Column(db.Integer(), primary_key=True)
+#     name = db.Column(db.String(32), nullable=False)
+#     staff_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+   
+#     def __repr__(self):
+#         return f"User {self.name}"
+
+#     def save(self):
+#         db.session.add(self)
+#         db.session.commit()
+
 class Learningjourney(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
+    staff_id = db.Column(db.Integer, db.ForeignKey('users.id'))
    
     def __repr__(self):
         return f"User {self.name}"
@@ -32,6 +45,7 @@ class Users(db.Model):
     password = db.Column(db.Text())
     jwt_auth_active = db.Column(db.Boolean())
     date_joined = db.Column(db.DateTime(), default=datetime.utcnow)
+    learningjourneys = db.relationship('Learningjourney', backref='users')
 
     def __repr__(self):
         return f"User {self.username}"

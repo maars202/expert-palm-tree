@@ -107,14 +107,16 @@ class CreateLearningJourney(Resource):
         # if user_exists:
         #     return {"success": False,
         #             "msg": "Email already taken"}, 400
-
-        new_user = Learningjourney(name=_username)
+        new_user = Users(username="learningjourney user 1", email="something@gmail.com")
+        new_user.save()
+        print(f"USER: {new_user}")
+        new_journey = Learningjourney(name=_username, users=new_user)
 
         # new_user.set_password(_password)
-        new_user.save()
+        new_journey.save()
 
         return {"success": True,
-                "userID": new_user.id,
+                "userID": new_journey.id,
                 "msg": "The Learning journey was successfully registered",
                 }, 200
 
