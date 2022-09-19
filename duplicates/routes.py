@@ -87,7 +87,7 @@ def token_required(f):
 """
 
 
-@rest_api.route('/api/users/register2')
+@rest_api.route('/api/users/register')
 class CreateLearningJourney(Resource):
     """
        Creates a new user by taking 'signup_model' input

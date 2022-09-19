@@ -40,6 +40,28 @@ def client():
 
     print("setting random here!")
 
+
+def test_creating_learning_journey(client):
+    from random import randint
+    value = randint(0, 200)
+    response = client.post(
+        "api/users/register2",
+        data=json.dumps(
+            {
+                "name": f"#{value} journey",
+            }
+        ),
+        content_type="application/json")
+
+    print("The user was successfully registered")
+    data = json.loads(response.data.decode())
+    print("RESULT:", data)
+    assert response.status_code == 200
+    assert "The Learning journey was successfully registered" in data["msg"]
+
+
+
+
 def test_user_signup1(client):
     """
        Tests /users/register API
