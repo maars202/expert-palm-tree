@@ -12,7 +12,7 @@ from flask_restx import Api, Resource, fields
 
 import jwt
 
-from .models import db, Users, JWTTokenBlocklist
+from .models import Learningjourney, db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 
 rest_api = Api(version="1.0", title="Users API")
@@ -21,6 +21,10 @@ rest_api = Api(version="1.0", title="Users API")
 """
     Flask-Restx models for api request and response data
 """
+
+learningjourney_create_model = rest_api.model('learningjourneyCreateModel', 
+                                            {"name": fields.String(required=True, min_length=2, max_length=32),
+                                              })
 
 signup_model = rest_api.model('SignUpModel', {"username": fields.String(required=True, min_length=2, max_length=32),
                                               "email": fields.String(required=True, min_length=4, max_length=64),
@@ -81,6 +85,40 @@ def token_required(f):
 """
     Flask-Restx routes
 """
+
+
+@rest_api.route('/api/users/register')
+class CreateLearningJourney(Resource):
+    """
+       Creates a new user by taking 'signup_model' input
+    """
+
+    @rest_api.expect(learningjourney_create_model, validate=True)
+    def post(self):
+
+        req_data = request.get_json()
+
+        _username = req_data.get("name")
+        # _email = req_data.get("email")
+        # _password = req_data.get("password")
+
+        # user_exists = Users.get_by_email(_email)
+        # print("duplicate!: ", user_exists)
+        # if user_exists:
+        #     return {"success": False,
+        #             "msg": "Email already taken"}, 400
+
+        new_user = Learningjourney(name=_username)
+
+        # new_user.set_password(_password)
+        new_user.save()
+
+        return {"success": True,
+                "userID": new_user.id,
+                "msg": "The Learning journey was successfully registered",
+                }, 200
+
+
 
 
 @rest_api.route('/api/users/register')

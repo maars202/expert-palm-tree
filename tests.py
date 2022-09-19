@@ -23,8 +23,10 @@ DUMMY_EMAIL = "apple@apple.com"
 DUMMY_PASS = "newpassword"
 
 def generateDummyData():
+    # username with 5 characters:
     DUMMY_USERNAME_ = ''.join(random.choices(string.ascii_lowercase, k=5))
     DUMMY_EMAIL_ = DUMMY_USERNAME_ + "@apple.com"
+     # password with 11 characters:
     DUMMY_PASS_ = ''.join(random.choices(string.ascii_lowercase, k=11))
     return DUMMY_USERNAME_, DUMMY_EMAIL_, DUMMY_PASS_
 

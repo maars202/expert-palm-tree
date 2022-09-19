@@ -13,6 +13,18 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+class Learningjourney(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(32), nullable=False)
+   
+    def __repr__(self):
+        return f"User {self.name}"
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
 class Users(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(32), nullable=False)
