@@ -25,19 +25,10 @@ db = SQLAlchemy()
 #         db.session.add(self)
 #         db.session.commit()
 
-class Users(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    username = db.Column(db.String(32), nullable=False)
-    email = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.Text())
-
 class Learningjourney(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     staff_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    # delete on cascade: -- composition can only be implemented using sql 
-    # aggregation can be done using python
    
     def __repr__(self):
         return f"User {self.name}"
@@ -47,7 +38,11 @@ class Learningjourney(db.Model):
         db.session.commit()
 
 
-class Staff(Users):
+class Users(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(32), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.Text())
     jwt_auth_active = db.Column(db.Boolean())
     date_joined = db.Column(db.DateTime(), default=datetime.utcnow)
     learningjourneys = db.relationship('Learningjourney', backref='users')

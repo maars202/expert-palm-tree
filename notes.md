@@ -21,4 +21,9 @@ https://medium.com/snowflake/snowflake-ci-cd-with-github-actions-c2168ceb33bc
 
 
 
+https://stackoverflow.com/questions/41569206/flask-sqlalchemy-foreign-key-relationships
 
+
+
+Aggregation and composition example: 
+https://medium.com/@dineshmadhup_75545/implementation-of-inheritance-composition-and-aggregation-in-python-aee2761cb2d0
